@@ -7,9 +7,11 @@ class SearchResult {
   List<Articles> allResult = [];
 }
 
+List<Articles> searchValue = [];
+
 getData(int displayData, String country) async {
   String url =
-      "http://newsapi.org/v2/top-headlines?country=$country&category=business&apiKey=01999c1172bf48d7a91942e7d1cfb954";
+      "http://newsapi.org/v2/top-headlines?&sortBy=popularity&country=$country&category=business&apiKey=d2d02e1c894c47beaa437c11509324d7";
   var result = await http.get(url);
   var objectResult = json.decode(result.body);
   var userModelList = List<Articles>();
@@ -17,18 +19,9 @@ getData(int displayData, String country) async {
 
   for (var item in objectResult["articles"]) {
     if (cnt < displayData) {
-      Articles articles = Articles(
-        author: item['author'],
-        content: item['content'],
-        description: item['description'],
-        publishedAt: item['publishedAt'],
-        title: item['title'],
-        source: item['source']['name'],
-        url: item['url'],
-        urlToImage: item['urlToImage'],
-      );
+    Articles articles = Articles.fromJson(item);
       userModelList.add(articles);
-      SearchResult().allResult.add(articles);
+      searchValue.add(articles);
     }
     cnt++;
   }

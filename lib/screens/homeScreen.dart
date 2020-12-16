@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:newsapp/services/channelServices.dart';
+import 'package:newsapp/utils/passArguments.dart';
 import '.././global/appStrings.dart';
 import '.././global/colors.dart';
 import '.././models/newsModel.dart';
@@ -136,12 +138,60 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               ],
             ),
           ),
+          Container(
+            height: 70,
+            child: FutureBuilder(
+              future: getChannel(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: 20,
+                    scrollDirection: Axis.horizontal,
+                    itemBuilder: (BuildContext context, int index) {
+                      var myData = snapshot.data[index];
+                      return Container(
+                        decoration: BoxDecoration(),
+                        child: GestureDetector(
+                          onTap: () {
+                            print(index);
+                            Navigator.pushNamed(context, "/ChannelDetail",
+                                arguments: NewsChannelName(
+                                  name: myData.name,
+                                  description: myData.description,
+                                  url: myData.url,
+                                ));
+                          },
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Color(0xFF303F60),
+                            ),
+                            child: Center(
+                              child: Text(myData.name.toString(),
+                                  style:
+                                      TextStyle(color: ColorPlate.WhiteColor)),
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                } else {
+                  return Container();
+                }
+              },
+            ),
+          ),
           Expanded(
             child: FutureBuilder(
               future: getData(dataToCall, _currText),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     itemCount: snapshot.data.length,
                     itemBuilder: (BuildContext context, int index) {
                       var myData = snapshot.data[index];
@@ -207,17 +257,24 @@ class VideoSearch extends SearchDelegate<Articles> {
   @override
   Widget buildSuggestions(BuildContext context) {
     final myList = query.isEmpty
-        ? SearchResult().searchResult
-        : SearchResult()
-            .searchResult
+        ? searchValue
+        : searchValue
             .where((u) =>
                 (u.title.toLowerCase().contains(query.toLowerCase()) ||
                     u.source.toLowerCase().contains(query.toLowerCase())))
             .toList();
     return myList.isEmpty
-        ? Center(child: Text("No result Found"))
+        ? Center(
+            child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/nosearch.png",
+                  height: 80, color: Color(0xFFCFD4DC)),
+              Text("No result Found"),
+            ],
+          ))
         : ListView.builder(
-            padding: EdgeInsets.fromLTRB(30, 0, 30, 70),
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 70),
             shrinkWrap: true,
             itemCount: myList.length ?? 0,
             itemBuilder: (BuildContext context, int index) {

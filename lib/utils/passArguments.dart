@@ -16,3 +16,10 @@ class PassArguments {
     this.date,
   });
 }
+
+class NewsChannelName {
+  String name;
+  String description;
+  String url;
+  NewsChannelName({this.name, this.description, this.url});
+}

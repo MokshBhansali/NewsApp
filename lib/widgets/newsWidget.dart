@@ -77,7 +77,8 @@ getNewsDataWidget(context, myData) {
                   bottom: 15,
                   child: Container(
                     child: CachedNetworkImage(
-                      imageUrl: myData.urlToImage,
+                      imageUrl: myData.urlToImage ??
+                          "https://rimatour.com/wp-content/uploads/2017/09/No-image-found.jpg",
                       imageBuilder: (context, imageProvider) => Container(
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),

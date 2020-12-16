@@ -19,7 +19,12 @@ class _DetailScreenState extends State<DetailScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: Text(
+          this.widget.arguments.title.toString(),
+          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+        ),
+      ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,24 +50,24 @@ class _DetailScreenState extends State<DetailScreen> {
                           Icon(Icons.add_alert_outlined),
                     ),
                   ),
-                  Positioned(
-                    bottom: 10,
-                    left: 5,
-                    right: 5,
-                    child: Column(
-                      children: [
-                        Text(
-                          this.widget.arguments.title.toString(),
-                          maxLines: 2,
-                          style: GoogleFonts.poppins(
-                            color: ColorPlate.WhiteColor,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
+                  // Positioned(
+                  //   bottom: 10,
+                  //   left: 5,
+                  //   right: 5,
+                  //   child: Column(
+                  //     children: [
+                  //       Text(
+                  //         this.widget.arguments.title.toString(),
+                  //         maxLines: 2,
+                  //         style: GoogleFonts.poppins(
+                  //           color: ColorPlate.WhiteColor,
+                  //           fontSize: 12,
+                  //           fontWeight: FontWeight.w500,
+                  //         ),
+                  //       )
+                  //     ],
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -73,11 +78,19 @@ class _DetailScreenState extends State<DetailScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
+                    this.widget.arguments.title.toString(),
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        color: ColorPlate.BlackColor),
+                  ),
+                  mySizedBox(myHeight: 10, myWidth: 0),
+                  Text(
                     this.widget.arguments.newsSource.toString(),
                     style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  Text(this.widget.arguments.date.split('T').first.toString()),
-                  mySizedBox(myHeight: 20, myWidth: 0),
+                  Text(this.widget.arguments.date.substring(0, 10).toString()),
+                  mySizedBox(myHeight: 10, myWidth: 0),
                   Text(
                     this.widget.arguments.content.toString(),
                     style: GoogleFonts.poppins(
