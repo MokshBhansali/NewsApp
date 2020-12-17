@@ -21,6 +21,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   String _currText = 'in';
   List<String> _locations = ['Popular', 'Newest', 'Oldest'];
+  List<String> sorted = ['popularity', 'publishedAt', 'relevancy'];
+  var sort;
   String _selectedLocation;
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
@@ -122,10 +124,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     DropdownButton(
-                      hint: Text('Popular'),
+                      hint: Text("Popular"),
                       value: _selectedLocation,
-                      onChanged: (newValue) =>
-                          setState(() => _selectedLocation = newValue),
+                      onChanged: (newValue) {
+                        setState(() => _selectedLocation = newValue);
+                        if (_selectedLocation == "Popular") {
+                          sort = "popularity";
+                          HomeScreen();
+                          setState(() {});
+                        } else if (_selectedLocation == "Newest") {
+                          sort = "popularity";
+                          HomeScreen();
+                          setState(() {});
+                        } else {
+                          sort = "relevancy";
+                          HomeScreen();
+                          setState(() {});
+                        }
+                      },
                       items: _locations.map((location) {
                         return DropdownMenuItem(
                           child: new Text(location),
@@ -187,7 +203,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           ),
           Expanded(
             child: FutureBuilder(
-              future: getData(dataToCall, _currText),
+              future: getData(dataToCall, _currText, popular: sort),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(

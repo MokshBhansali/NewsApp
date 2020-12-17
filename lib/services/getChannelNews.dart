@@ -5,7 +5,7 @@ import '../models/channelNewsModel.dart';
 
 getnewsDataViewDAta(var newsUrl) async {
   String url =
-      "https://newsapi.org/v2/everything?domains=$newsUrl&apiKey=d2d02e1c894c47beaa437c11509324d7";
+      "https://newsapi.org/v2/everything?domains=$newsUrl&apiKey=01999c1172bf48d7a91942e7d1cfb954";
   var result = await http.get(url);
   var response = json.decode(result.body);
   var newsList = List<Articles>();

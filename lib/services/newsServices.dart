@@ -9,9 +9,9 @@ class SearchResult {
 
 List<Articles> searchValue = [];
 
-getData(int displayData, String country) async {
+getData(int displayData, String country, {var popular}) async {
   String url =
-      "http://newsapi.org/v2/top-headlines?&sortBy=popularity&country=$country&category=business&apiKey=d2d02e1c894c47beaa437c11509324d7";
+      "http://newsapi.org/v2/top-headlines?country=$country&excludeDomains=stackoverflow.com&sortBy=$popular&apiKey=01999c1172bf48d7a91942e7d1cfb954";
   var result = await http.get(url);
   var objectResult = json.decode(result.body);
   var userModelList = List<Articles>();
@@ -19,7 +19,7 @@ getData(int displayData, String country) async {
 
   for (var item in objectResult["articles"]) {
     if (cnt < displayData) {
-    Articles articles = Articles.fromJson(item);
+      Articles articles = Articles.fromJson(item);
       userModelList.add(articles);
       searchValue.add(articles);
     }
